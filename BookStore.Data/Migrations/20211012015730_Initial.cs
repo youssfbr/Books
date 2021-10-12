@@ -1,56 +1,56 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BookStore.Migrations
+namespace BookStore.Data.Migrations
 {
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Autores",
+                name: "Autor",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Nome = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Autores", x => x.Id);
+                    table.PrimaryKey("PK_Autor", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categorias",
+                name: "Categoria",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Nome = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categorias", x => x.Id);
+                    table.PrimaryKey("PK_Categoria", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Livros",
+                name: "Livro",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     DataLancamento = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Livros", x => x.Id);
+                    table.PrimaryKey("PK_Livro", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Livros_Categorias_CategoriaId",
+                        name: "FK_Livro_Categoria_CategoriaId",
                         column: x => x.CategoriaId,
-                        principalTable: "Categorias",
+                        principalTable: "Categoria",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -66,15 +66,15 @@ namespace BookStore.Migrations
                 {
                     table.PrimaryKey("PK_AutorLivro", x => new { x.AutoresId, x.LivrosId });
                     table.ForeignKey(
-                        name: "FK_AutorLivro_Autores_AutoresId",
+                        name: "FK_AutorLivro_Autor_AutoresId",
                         column: x => x.AutoresId,
-                        principalTable: "Autores",
+                        principalTable: "Autor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AutorLivro_Livros_LivrosId",
+                        name: "FK_AutorLivro_Livro_LivrosId",
                         column: x => x.LivrosId,
-                        principalTable: "Livros",
+                        principalTable: "Livro",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -85,8 +85,8 @@ namespace BookStore.Migrations
                 column: "LivrosId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Livros_CategoriaId",
-                table: "Livros",
+                name: "IX_Livro_CategoriaId",
+                table: "Livro",
                 column: "CategoriaId");
         }
 
@@ -96,13 +96,13 @@ namespace BookStore.Migrations
                 name: "AutorLivro");
 
             migrationBuilder.DropTable(
-                name: "Autores");
+                name: "Autor");
 
             migrationBuilder.DropTable(
-                name: "Livros");
+                name: "Livro");
 
             migrationBuilder.DropTable(
-                name: "Categorias");
+                name: "Categoria");
         }
     }
 }
